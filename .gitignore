@@ -80,3 +80,7 @@ yarn-error.log
 # Generated Files
 ./data/*
 data
+
+# Prisma
+prisma/.env
+
