@@ -14,9 +14,23 @@ Postgres
 [Prisma](https://www.prisma.io/)
 Typescript?
 
-## Running the project
+## Running the project for the first time
 
-`npm run start`
+1. Download and install Docker
+2. `npm install`
+3. Copy the prisma environment and edit it with correct information.
+
+`cp prisma/example.env prisma/.env`
+
+Get the current `DATABASE_URL` from another dev on the team, you need:
+
+username, password, portnumber, database name
+
+4. `npm run start`
+
+### Hidden files to be aware of
+.gitignore
+prisma/.env
 
 ## Deploy
 
@@ -34,3 +48,13 @@ Typescript?
 ### Close the DB and delete all data
 
 `docker-compose down -v`
+
+### Migrations
+
+Migrations are managed by Prisma and should be run everytime a change is made to the database schema.
+
+#### Create Migration
+`npx prisma migrate save --experimental --create-db --name "migration name"`
+
+#### Apple Migration to Production DB
+`npx prisma migrate up --experimental`
