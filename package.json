@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server.js"
+    "start": "node ./src/server.js",
+    "make-migration": "npx prisma migrate save --experimental --create-db --name",
+    "migrate-up": "npx prisma migrate up --experimental",
+    "prod-migrate": "DATABASE_URL=\"$DATABASE_URL\" npx prisma migrate up --experimental"
   },
   "keywords": [],
   "author": "",

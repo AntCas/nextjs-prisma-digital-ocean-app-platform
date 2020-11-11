@@ -54,7 +54,13 @@ prisma/.env
 Migrations are managed by Prisma and should be run everytime a change is made to the database schema.
 
 #### Create Migration
-`npx prisma migrate save --experimental --create-db --name "migration name"`
+`npm run make-migration "migration name"`
 
-#### Apple Migration to Production DB
-`npx prisma migrate up --experimental`
+#### Run Migration
+`npm run migrate-up`
+
+#### Create Prisma Client
+`npx prisma generate`
+
+#### Run migration against production DB
+`DATABASE_URL="Get this string from the production DB" npm run prod-migrate`
