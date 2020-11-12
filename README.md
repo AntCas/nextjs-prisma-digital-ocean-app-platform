@@ -38,8 +38,7 @@ prisma/.env
 
 ## Develop
 
-`npm run start`
-`docker-compose up -d`
+`npm run develop`
 
 ### Close the DB
 
