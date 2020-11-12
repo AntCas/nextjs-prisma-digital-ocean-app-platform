@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server.js",
+    "start": "concurrently --kill-others \"node ./src/server.js\" \"node ./src/jobs.js\"",
     "develop": "concurrently --kill-others \"npm run start\" \"docker-compose up\"",
     "make-migration": "npx prisma migrate save --experimental --create-db --name",
     "migrate-up": "npx prisma migrate up --experimental",
