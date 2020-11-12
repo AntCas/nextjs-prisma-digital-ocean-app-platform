@@ -2,26 +2,46 @@
 const { gql } = require('apollo-server')
 const { prisma } = require('./db')
 
-
 const typeDefs = gql`
+  type User {
+    email: String!
+    id: ID!
+    name: String
+    posts: [Post!]!
+  }
+
   type Post {
     content: String
     id: ID!
     published: Boolean!
     title: String!
+    author: User
   }
 
   type Query {
     feed: [Post!]!
     post(id: ID!): Post
+    users: [User]
   }
 
   type Mutation {
-    createDraft(content: String, title: String!): Post!
+    createUser(data: UserCreateInput!): User!
+    createDraft(authorEmail: String, content: String, title: String!): Post!
     publish(id: ID!): Post
   }
-`
 
+  input UserCreateInput {
+    email: String!
+    name: String
+    posts: [PostCreateWithoutAuthorInput!]
+  }
+
+  input PostCreateWithoutAuthorInput {
+    content: String
+    published: Boolean
+    title: String!
+  }
+`
 
 const resolvers = {
   Query: {
@@ -35,6 +55,9 @@ const resolvers = {
         where: { id: Number(args.id) },
       })
     },
+    users: (parent, args) => {
+      return prisma.user.findMany()
+    }
   },
   Mutation: {
     createDraft: (parent, args) => {
@@ -42,28 +65,52 @@ const resolvers = {
         data: {
           title: args.title,
           content: args.content,
+          published: false,
+          author: args.authorEmail && {
+            connect: { email: args.authorEmail },
+          },
         },
       })
     },
     publish: (parent, args) => {
       return prisma.post.update({
-        where: {
-          id: Number(args.id),
-        },
+        where: { id: Number(args.id) },
         data: {
           published: true,
         },
       })
     },
+    createUser: (parent, args) => {
+      return prisma.user.create({
+        data: {
+          email: args.data.email,
+          name: args.data.name,
+          posts: {
+            create: args.data.posts,
+          },
+        },
+      })
+    },
+  },
+  User: {
+    posts: (parent, args) => {
+      return prisma.user
+        .findOne({
+          where: { id: parent.id },
+        })
+        .posts()
+    },
   },
   Post: {
-    content: (parent) => parent.content,
-    id: (parent) => parent.id,
-    published: (parent) => parent.published,
-    title: (parent) => parent.title,
+    author: (parent, args) => {
+      return prisma.post
+        .findOne({
+          where: { id: parent.id },
+        })
+        .author()
+    },
   },
 }
-
 
 module.exports = {
   resolvers,
