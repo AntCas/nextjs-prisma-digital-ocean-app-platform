@@ -1,5 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from "@prisma/client";
 
-export default (_: NextApiRequest, res: NextApiResponse) => {
-  res.status(200).json({ text: 'Hello' })
+const prisma = new PrismaClient();
+
+
+export default async (_: NextApiRequest, res: NextApiResponse) => {
+  const posts = await prisma.post.findMany();
+  res.json(posts);
+  //res.status(200).json({ text: 'Hello' })
 }
