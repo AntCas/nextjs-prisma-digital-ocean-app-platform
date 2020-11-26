@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "next build",
     "dev": "next dev",
     "develop": "concurrently --kill-others \"npm run dev\" \"docker-compose up\"",
     "make-migration": "npx prisma migrate save --experimental --create-db --name",
     "migrate-up": "npx prisma migrate up --experimental",
     "prod-migrate": "DATABASE_URL=\"$DATABASE_URL\" npx prisma migrate up --experimental",
-    "start": "concurrently --kill-others \"next build && next start -H 0.0.0.0 -p ${PORT:-8080}\" \"node ./src/jobs\" ",
+    "start": "concurrently --kill-others \"next start -H 0.0.0.0 -p ${PORT:-8080}\" \"node ./src/jobs\" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
