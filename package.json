@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently --kill-others \"node ./src/server.js\" \"node ./src/jobs.js\"",
-    "develop": "concurrently --kill-others \"npm run start\" \"docker-compose up\"",
+    "start": "concurrently --kill-others \"npm run client\" \"node ./src/jobs\" ",
+    "client": "cd client && npm run start",
+    "develop": "concurrently --kill-others \"npm run client\" \"docker-compose up\"",
     "make-migration": "npx prisma migrate save --experimental --create-db --name",
     "migrate-up": "npx prisma migrate up --experimental",
     "prod-migrate": "DATABASE_URL=\"$DATABASE_URL\" npx prisma migrate up --experimental"

@@ -9,10 +9,6 @@ const j = schedule.scheduleJob(rule, function(){
 });
 */
 
-
-
-/*
 const k = schedule.scheduleJob('* * * * *', function(){
   console.log('The answer to life, the universe, and everything!');
 });
-*/
